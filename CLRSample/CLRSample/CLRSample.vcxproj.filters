@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MyForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Preprocessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Thinning.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Preprocessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thinning.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyForm.resx">
+      <Filter>Resource Files</Filter>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_calib3d2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_contrib2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_core2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_features2d2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_flann2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_gpu2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_highgui2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_imgproc2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_legacy2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_ml2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_nonfree2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_objdetect2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_ocl2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_photo2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_stitching2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_superres2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_ts2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_video2411d.lib" />
+    <Library Include="..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_videostab2411d.lib" />
+  </ItemGroup>
+</Project>
