@@ -70,6 +70,14 @@
 	extern int Y0;
 	extern int X1;
 	extern int Y1;
+
+	extern bool browse1;
+	extern bool browse2;
+	extern bool Preproc;
+	extern bool Thinn;
+	extern bool Detect;
+	extern bool FalseDetect;
+	extern bool Match;
 	
 
 #endif

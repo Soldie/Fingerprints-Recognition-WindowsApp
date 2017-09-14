@@ -1,65 +1,9 @@
-﻿Build started 14.09.2017 14:48:38.
+﻿Build started 14.09.2017 17:07:55.
      1>Project "C:\Users\Marek\Documents\GitHub\Fingerprints-Recognition-WindowsApp\CLRSample\CLRSample\CLRSample.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\opencv2410\build\include /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\\" /AI"C:\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral" /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Facades\\" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /TP /FUC:\WINDOWS\assembly\GAC_MSIL\Microsoft.ReportViewer.Common\11.0.0.0__89845dcd8080cc91\Microsoft.ReportViewer.Common.dll /FUC:\WINDOWS\assembly\GAC_MSIL\Microsoft.ReportViewer.WinForms\11.0.0.0__89845dcd8080cc91\Microsoft.ReportViewer.WinForms.dll /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Web.Services.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /analyze- /errorReport:prompt /clr:nostdlib MyForm.cpp Source.cpp
-         MyForm.cpp
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(429): warning C4244: '=' : conversion from 'wchar_t' to 'char', possible loss of data
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(463): warning C4244: '=' : conversion from 'wchar_t' to 'char', possible loss of data
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(752): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(753): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(758): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(767): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(768): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(773): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(845): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(846): warning C4018: '<' : signed/unsigned mismatch
-         Source.cpp
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(429): warning C4244: '=' : conversion from 'wchar_t' to 'char', possible loss of data
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(463): warning C4244: '=' : conversion from 'wchar_t' to 'char', possible loss of data
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(752): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(753): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(758): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(767): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(768): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(773): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(845): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\marek\documents\github\fingerprints-recognition-windowsapp\clrsample\clrsample\MyForm.h(846): warning C4018: '<' : signed/unsigned mismatch
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Marek\Documents\GitHub\Fingerprints-Recognition-WindowsApp\CLRSample\Debug\CLRSample.exe" /INCREMENTAL /NOLOGO /ASSEMBLYRESOURCE:Debug\CLRSample.MyForm.resources /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Marek\Documents\GitHub\Fingerprints-Recognition-WindowsApp\CLRSample\Debug\CLRSample.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\common.obj
-         Debug\Detection.obj
-         Debug\FalseMinutiae.obj
-         Debug\Matching.obj
-         Debug\MyForm.obj
-         Debug\Preprocessing.obj
-         Debug\Source.obj
-         Debug\Thinning.obj
-         "Debug\.NETFramework,Version=v4.5.AssemblyAttributes.obj"
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_calib3d2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_contrib2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_core2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_features2d2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_flann2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_gpu2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_highgui2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_imgproc2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_legacy2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_ml2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_nonfree2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_objdetect2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_ocl2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_photo2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_stitching2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_superres2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_ts2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_video2411d.lib
-         ..\..\..\..\..\opencv2410\build\x86\vc12\libd\opencv_videostab2411d.lib
-     1>opencv_ts2411d.lib(ts_gtest.obj) : warning LNK4099: PDB 'opencv_ts2411d.pdb' was not found with 'opencv_ts2411d.lib(ts_gtest.obj)' or at 'C:\Users\Marek\Documents\GitHub\Fingerprints-Recognition-WindowsApp\CLRSample\Debug\opencv_ts2411d.pdb'; linking object as if no debug info
-     1>opencv_ts2411d.lib(ts_perf.obj) : warning LNK4099: PDB 'opencv_ts2411d.pdb' was not found with 'opencv_ts2411d.lib(ts_perf.obj)' or at 'C:\Users\Marek\Documents\GitHub\Fingerprints-Recognition-WindowsApp\CLRSample\Debug\opencv_ts2411d.pdb'; linking object as if no debug info
-     1>opencv_ts2411d.lib(opencv_ts_pch.obj) : warning LNK4099: PDB 'opencv_ts2411d.pdb' was not found with 'opencv_ts2411d.lib(opencv_ts_pch.obj)' or at 'C:\Users\Marek\Documents\GitHub\Fingerprints-Recognition-WindowsApp\CLRSample\Debug\opencv_ts2411d.pdb'; linking object as if no debug info
+     1>Link:
          CLRSample.vcxproj -> C:\Users\Marek\Documents\GitHub\Fingerprints-Recognition-WindowsApp\CLRSample\Debug\CLRSample.exe
      1>Done Building Project "C:\Users\Marek\Documents\GitHub\Fingerprints-Recognition-WindowsApp\CLRSample\CLRSample\CLRSample.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:09.55
+Time Elapsed 00:00:00.24

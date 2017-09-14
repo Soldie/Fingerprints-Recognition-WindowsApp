@@ -67,3 +67,11 @@ int X0 = 52;
 int Y0 = 174;
 int X1 = 384;
 int Y1 = 546;
+
+bool browse1=false;
+bool browse2=false;
+bool Preproc = false;
+bool Thinn = false;
+bool Detect = false;
+bool FalseDetect = false;
+bool Match = false;

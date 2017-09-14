@@ -138,6 +138,7 @@ namespace CLRSample {
 			// 
 			// button3
 			// 
+			this->button3->Enabled = false;
 			this->button3->Location = System::Drawing::Point(12, 93);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(161, 32);
@@ -170,6 +171,7 @@ namespace CLRSample {
 			// 
 			// button4
 			// 
+			this->button4->Enabled = false;
 			this->button4->Location = System::Drawing::Point(12, 158);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(161, 32);
@@ -194,6 +196,7 @@ namespace CLRSample {
 			// 
 			// button5
 			// 
+			this->button5->Enabled = false;
 			this->button5->Location = System::Drawing::Point(12, 196);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(161, 32);
@@ -204,6 +207,7 @@ namespace CLRSample {
 			// 
 			// button6
 			// 
+			this->button6->Enabled = false;
 			this->button6->Location = System::Drawing::Point(12, 274);
 			this->button6->Name = L"button6";
 			this->button6->Size = System::Drawing::Size(161, 32);
@@ -221,9 +225,11 @@ namespace CLRSample {
 			this->comboBox2->Size = System::Drawing::Size(161, 21);
 			this->comboBox2->TabIndex = 9;
 			this->comboBox2->Text = L"Choose Matching Algorithm";
+			this->comboBox2->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::comboBox2_SelectedIndexChanged);
 			// 
 			// button7
 			// 
+			this->button7->Enabled = false;
 			this->button7->Location = System::Drawing::Point(12, 339);
 			this->button7->Name = L"button7";
 			this->button7->Size = System::Drawing::Size(161, 32);
@@ -250,9 +256,8 @@ namespace CLRSample {
 				static_cast<System::Byte>(238)));
 			this->label2->Location = System::Drawing::Point(77, 231);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(51, 20);
+			this->label2->Size = System::Drawing::Size(0, 20);
 			this->label2->TabIndex = 12;
-			this->label2->Text = L"label2";
 			// 
 			// label3
 			// 
@@ -261,9 +266,8 @@ namespace CLRSample {
 				static_cast<System::Byte>(238)));
 			this->label3->Location = System::Drawing::Point(77, 251);
 			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(51, 20);
+			this->label3->Size = System::Drawing::Size(0, 20);
 			this->label3->TabIndex = 13;
-			this->label3->Text = L"label3";
 			// 
 			// label4
 			// 
@@ -433,18 +437,25 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			String += znak;
 		}
 		image_target = cv::imread(String, 1);
-		Bitmap ^ bm = gcnew Bitmap(image_target.cols, image_target.rows, image_target.step, Imaging::PixelFormat::Format24bppRgb, IntPtr(image_target.data));
-		//pictureBox1->Left = 0;
-		//pictureBox1->Top = 0;
+		Bitmap ^ bm = gcnew Bitmap(Path);
 		pictureBox1->Width = bm->Width;
 		pictureBox1->Height = bm->Height;
 		pictureBox1->Image = bm;
 		this->AutoSize = true;
+		browse1 = true;
+		Preproc = false;
+		Thinn = false;
+		Detect = false;
+		FalseDetect = false;
+		Match = false;
+		if (browse2 == true)
+			button3->Enabled = true;
 		//pictureBox1->ImageLocation = Path;
 	}
 }
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 	///browse source file
+
 	OpenFileDialog^ openFileDialog2 = gcnew OpenFileDialog;
 
 	openFileDialog2->InitialDirectory = "C:\\Data";
@@ -467,16 +478,25 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 			String += znak;
 		}
 		image_source = cv::imread(String, 1);
-		Bitmap ^ bm = gcnew Bitmap(image_source.cols, image_source.rows, image_source.step, Imaging::PixelFormat::Format24bppRgb, IntPtr(image_source.data));
-		//pictureBox1->Left = 0;
-		//pictureBox1->Top = 0;
+		Bitmap ^ bm = gcnew Bitmap(Path);
 		pictureBox2->Width = bm->Width;
 		pictureBox2->Height = bm->Height;
 		pictureBox2->Image = bm;
 		this->AutoSize = true;
 		//pictureBox1->ImageLocation = Path;
+		browse2 = true;
+		Preproc = false;
+		Thinn = false;
+		Detect = false;
+		FalseDetect = false;
+		Match = false;
+		if (browse1 == true)
+			button3->Enabled = true;
 	}
 }
+
+		 System::String^ ThinningAlgorithm;
+		 System::String^ MatchingAlgorithm;
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 	//PREPROCESSING
 	//klonowanie odcisk wzorcowy i odcisk1
@@ -534,32 +554,40 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 	PreprocesingObject.FilterPores(image1);
 
 	//zapis odcisk wzorcowy
-	imwrite("preprocessing.bmp", image);
+	imwrite("Program/Preprocessing.bmp", image);
 
 	//zapis odcisk1
-	imwrite("preprocessing1.bmp", image1);
+	imwrite("Program/Preprocessing1.bmp", image1);
 
 	////wyswietlanie odcisk wzorcowy
-	Bitmap ^ bm = gcnew Bitmap("preprocessing.bmp");
+	Bitmap ^ bm = gcnew Bitmap("Program\\Preprocessing.bmp");
 	pictureBox1->Width = bm->Width;
 	pictureBox1->Height = bm->Height;
 	pictureBox1->Image = bm;
 	this->AutoSize = true;
 	
 	//wyswietlanie odcisk 1
-	bm = gcnew Bitmap("preprocessing1.bmp");
+	bm = gcnew Bitmap("Program\\Preprocessing1.bmp");
 	pictureBox2->Width = bm->Width;
 	pictureBox2->Height = bm->Height;
 	pictureBox2->Image = bm;
 	this->AutoSize = true;
 
+	ThinningAlgorithm = comboBox1->Text;
+
+	Preproc = true;
+	if (ThinningAlgorithm != "Choose Thinning Algorithm")
+		button4->Enabled = true;
+
 }
 private: System::Void openFileDialog1_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 }
 private: System::Void comboBox1_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (Preproc == true){
+		button4->Enabled = true;
+	}
 }
-		 System::String^ ThinningAlgorithm;
-		 System::String^ MatchingAlgorithm;
+		 
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 	//THINNING
 	Thinning ThinningObject;
@@ -610,11 +638,11 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 		ThinningObject.ImprovedArabicParallelThinning(image_thinning1, image_thinning1);
 	}
 
-	imwrite("Thinning.bmp", image_thinning);
-	imwrite("Thinning1.bmp", image_thinning1);
+	imwrite("Program/Thinning.bmp", image_thinning);
+	imwrite("Program/Thinning1.bmp", image_thinning1);
 
-	auto img = System::Drawing::Image::FromFile("Thinning.bmp");
-	auto img1 = System::Drawing::Image::FromFile("Thinning1.bmp");
+	auto img = System::Drawing::Image::FromFile("Program\\Thinning.bmp");
+	auto img1 = System::Drawing::Image::FromFile("Program\\Thinning1.bmp");
 
 	////wyswietlanie odcisk wzorcowy
 	Bitmap ^ bm = gcnew Bitmap(img);
@@ -637,6 +665,8 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 
 	delete img;
 	delete img1;
+	Thinn = true;
+	button5->Enabled = true;
 }
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
 
@@ -646,22 +676,26 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 	image_Detection = image_thinning.clone();
 	DetectionObject.EndingDetectionCN(image_thinning, image_Detection, EndListX, EndListY, Direction_Ending);
 	//std::cout << "TARGET IMAGE - DETECTED ENDING: " << EndListX.size() << std::endl;
+	label8->Text = "Detected Ending: " + EndListX.size();
 	DetectionObject.DeltaDetectionCN(image_thinning, image_Detection, DeltaListX, DeltaListY, Direction_Delta);
 	//std::cout << "TARGET IMAGE - DETECTED DELTA: " << DeltaListX.size() << std::endl;
+	label9->Text = "Detected Delta: " + DeltaListX.size();
 
 	//detekcja image source
 	image_Detection1 = image_thinning1.clone();
 	DetectionObject.EndingDetectionCN(image_thinning1, image_Detection1, EndListX1, EndListY1, Direction_Ending1);
 	//std::cout << "SOURCE IMAGE - DETECTED ENDING: " << EndListX.size() << std::endl;
+	label11->Text = "Detected Ending: " + EndListX1.size();
 	DetectionObject.DeltaDetectionCN(image_thinning1, image_Detection1, DeltaListX1, DeltaListY1, Direction_Delta1);
 	//std::cout << "SOURCE IMAGE - DETECTED DELTA: " << DeltaListX.size() << std::endl;
+	label10->Text = "Detected Delta: " + DeltaListX1.size();
 
 	//zapis
-	imwrite("image_Detection.bmp", image_Detection);
-	imwrite("image_Detection1.bmp", image_Detection1);
+	imwrite("Program/Detection.bmp", image_Detection);
+	imwrite("Program/Detection1.bmp", image_Detection1);
 
-	auto img = System::Drawing::Image::FromFile("image_Detection.bmp");
-	auto img1 = System::Drawing::Image::FromFile("image_Detection1.bmp");
+	auto img = System::Drawing::Image::FromFile("Program\\Detection.bmp");
+	auto img1 = System::Drawing::Image::FromFile("Program\\Detection1.bmp");
 
 	////wyswietlanie odcisk wzorcowy
 	Bitmap ^ bm = gcnew Bitmap(img);
@@ -679,6 +713,9 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 
 	delete img;
 	delete img1;
+
+	label2->Text = "Click on Target \n to mark frame";
+	Detect = true;
 }
 private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
 	//False minutiae cleaning
@@ -706,6 +743,8 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 	FalseMinutiaeObject.FrameMark(X0, Y0, X1, Y1, OutEndListX, OutEndListY, CleanEndListX, CleanEndListY, OutDeltaListX,
 		OutDeltaListY, CleanDeltaListX, CleanDeltaListY, CleanMinutiae, OutDirection_Ending, CleanDirection_Ending, OutDirection_Delta,
 		CleanDirection_Delta);
+	label8->Text = "Detected Ending: " + CleanEndListX.size();
+	label9->Text = "Detected Delta: " + CleanDeltaListX.size();
 
 	//false minutiae cleaner - odcisk 1
 	Minutiae1 = image_thinning1.clone();
@@ -717,14 +756,16 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 	FalseMinutiaeObject.FrameMark(X0, Y0, X1, Y1, OutEndListX1, OutEndListY1, CleanEndListX1, CleanEndListY1, OutDeltaListX1,
 		OutDeltaListY1, CleanDeltaListX1, CleanDeltaListY1, CleanMinutiae1, OutDirection_Ending1, CleanDirection_Ending1, OutDirection_Delta1,
 		CleanDirection_Delta1);
+	label11->Text = "Detected Ending: " + CleanEndListX1.size();
+	label10->Text = "Detected Delta: " + CleanDeltaListX1.size();
 
 
 	//zapis
-	imwrite("Clean_Minutiae.bmp", CleanMinutiae);
-	imwrite("Clean_Minutiae1.bmp", CleanMinutiae1);
+	imwrite("Program/Clean_Minutiae.bmp", CleanMinutiae);
+	imwrite("Program/Clean_Minutiae1.bmp", CleanMinutiae1);
 
-	auto img = System::Drawing::Image::FromFile("Clean_Minutiae.bmp");
-	auto img1 = System::Drawing::Image::FromFile("Clean_Minutiae1.bmp");
+	auto img = System::Drawing::Image::FromFile("Program\\Clean_Minutiae.bmp");
+	auto img1 = System::Drawing::Image::FromFile("Program\\Clean_Minutiae1.bmp");
 
 	////wyswietlanie odcisk wzorcowy
 	Bitmap ^ bm = gcnew Bitmap(img);
@@ -742,6 +783,14 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 
 	delete img;
 	delete img1;
+
+	FalseDetect = true;
+	
+	MatchingAlgorithm = comboBox2->Text;
+
+	if (MatchingAlgorithm != "Choose Matching Algorithm")
+		button7->Enabled = true;
+
 	
 }
 private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -787,34 +836,34 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 	//similar pairs
 	if (MatchingAlgorithm == "Generate Pairs"){
 		MatchingObject.GeneratePairs(MinutiaeList, PairsImage, Pairs);
-		imwrite("Pairs.bmp", PairsImage);
+		imwrite("Program/Match.bmp", PairsImage);
 		//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
 		MatchingObject.GeneratePairs(MinutiaeList1, PairsImage1, Pairs1);
-		imwrite("Pairs1.bmp", PairsImage1);
+		imwrite("Program/Match1.bmp", PairsImage1);
 		//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
 	}
 	//graph5
 	if (MatchingAlgorithm == "Generate Graph 5"){
 		MatchingObject.GenerateGraph5(MinutiaeList, PairsImage, Pairs);
-		imwrite("Pairs.bmp", PairsImage);
+		imwrite("Program/Match.bmp", PairsImage);
 		//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
 		MatchingObject.GenerateGraph5(MinutiaeList1, PairsImage1, Pairs1);
-		imwrite("Pairs1.bmp", PairsImage1);
+		imwrite("Program/Match1.bmp", PairsImage1);
 		//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
 	}
 
 	//graph10
 	if (MatchingAlgorithm == "Generate Graph 10"){
 		MatchingObject.GenerateGraph10(MinutiaeList, PairsImage, Pairs);
-		imwrite("Pairs.bmp", PairsImage);
+		imwrite("Program/Match.bmp", PairsImage);
 		//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
 		MatchingObject.GenerateGraph10(MinutiaeList1, PairsImage1, Pairs1);
-		imwrite("Pairs1.bmp", PairsImage1);
+		imwrite("Program/Match1.bmp", PairsImage1);
 		//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
 	}
 
-	auto img = System::Drawing::Image::FromFile("Pairs.bmp");
-	auto img1 = System::Drawing::Image::FromFile("Pairs1.bmp");
+	auto img = System::Drawing::Image::FromFile("Program\\Match.bmp");
+	auto img1 = System::Drawing::Image::FromFile("Program\\Match1.bmp");
 
 	////wyswietlanie odcisk wzorcowy
 	Bitmap ^ bm = gcnew Bitmap(img);
@@ -862,6 +911,7 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 		}
 	}
 	label6->Text = "Matched Minutiae: "+ *std::max_element(MatchedMinutiae.begin(), MatchedMinutiae.end());
+	button7->Enabled = false;
 
 	//std::cout << "MATCHED MINUTIAE :" << *std::max_element(MatchedMinutiae.begin(), MatchedMinutiae.end()) << std::endl;
 }
@@ -878,22 +928,27 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 int licznik = 0;
 
 private: System::Void pictureBox1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-
-	if (licznik == 0){
-		X0 = e->X;
-		Y0 = e->Y;
-		licznik++;
-		label2->Text = "X: " + X0 + " Y: " + Y0;
+	if (Detect == true){
+		if (licznik == 0){
+			X0 = e->X;
+			Y0 = e->Y;
+			licznik++;
+			label2->Text = "X: " + X0 + " Y: " + Y0;
+		}
+		else if (licznik == 1){
+			X1 = e->X;
+			Y1 = e->Y;
+			licznik = 0;
+			label3->Text = "X: " + X1 + " Y: " + Y1;
+			button6->Enabled = true;
+		}
 	}
-	else if (licznik == 1){
-		X1 = e->X;
-		Y1 = e->Y;
-		licznik=0;
-		label3->Text = "X: " + X1 + " Y: " + Y1;
+	
+}
+private: System::Void comboBox2_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (FalseDetect == true){
+		button7->Enabled = true;
 	}
-	
-	
-	
 }
 };
 }
