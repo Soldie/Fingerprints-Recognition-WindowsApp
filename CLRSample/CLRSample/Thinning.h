@@ -58,6 +58,7 @@ public:
 	// TU PORÓWNANIE (PO LEWEJ ZWYK£Y ARABIC, PO PRAWEJ NOWA):
 	// https://zapodaj.net/6f470ca119036.png.html
 	// https://zapodaj.net/ec10950b2a33c.png.html
+
 	void ImprovedArabicParallelThinning(const Mat& src, Mat& dst);
 
 	// PRZYDATNE

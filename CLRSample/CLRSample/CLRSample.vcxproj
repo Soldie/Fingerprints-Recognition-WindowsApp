@@ -73,14 +73,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ReportViewer.Common">
+      <HintPath>Microsoft.ReportViewer.Common</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms">
+      <HintPath>Microsoft.ReportViewer.WinForms</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common.cpp" />
+    <ClCompile Include="Detection.cpp" />
+    <ClCompile Include="FalseMinutiae.cpp" />
+    <ClCompile Include="Matching.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Preprocessing.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -88,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
+    <ClInclude Include="Detection.h" />
+    <ClInclude Include="FalseMinutiae.h" />
+    <ClInclude Include="Matching.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
