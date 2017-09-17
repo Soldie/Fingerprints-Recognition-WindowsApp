@@ -219,7 +219,10 @@ namespace CLRSample {
 			// comboBox2
 			// 
 			this->comboBox2->FormattingEnabled = true;
-			this->comboBox2->Items->AddRange(gcnew cli::array< System::Object^  >(3) { L"Generate Pairs", L"Generate Graph 5", L"Generate Graph 10" });
+			this->comboBox2->Items->AddRange(gcnew cli::array< System::Object^  >(4) {
+				L"Generate Pairs", L"Generate Graph 5", L"Generate Graph 10",
+					L"Delaunay Triangulation"
+			});
 			this->comboBox2->Location = System::Drawing::Point(12, 312);
 			this->comboBox2->Name = L"comboBox2";
 			this->comboBox2->Size = System::Drawing::Size(161, 21);
@@ -443,13 +446,13 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 		pictureBox1->Image = bm;
 		this->AutoSize = true;
 		browse1 = true;
-		Preproc = false;
-		Thinn = false;
-		Detect = false;
-		FalseDetect = false;
-		Match = false;
+
 		if (browse2 == true)
+		{
+			ClearAll();
 			button3->Enabled = true;
+		}
+			
 		//pictureBox1->ImageLocation = Path;
 	}
 }
@@ -485,19 +488,20 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 		this->AutoSize = true;
 		//pictureBox1->ImageLocation = Path;
 		browse2 = true;
-		Preproc = false;
-		Thinn = false;
-		Detect = false;
-		FalseDetect = false;
-		Match = false;
+
 		if (browse1 == true)
+		{
+			ClearAll();
 			button3->Enabled = true;
+		}
+
 	}
 }
 
 		 System::String^ ThinningAlgorithm;
 		 System::String^ MatchingAlgorithm;
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
+
 	//PREPROCESSING
 	//klonowanie odcisk wzorcowy i odcisk1
 	image = image_target.clone();
@@ -559,19 +563,25 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 	//zapis odcisk1
 	imwrite("Program/Preprocessing1.bmp", image1);
 
+	auto img = System::Drawing::Image::FromFile("Program\\Preprocessing.bmp");
+	auto img1 = System::Drawing::Image::FromFile("Program\\Preprocessing1.bmp");
+
 	////wyswietlanie odcisk wzorcowy
-	Bitmap ^ bm = gcnew Bitmap("Program\\Preprocessing.bmp");
+	Bitmap ^ bm = gcnew Bitmap(img);
 	pictureBox1->Width = bm->Width;
 	pictureBox1->Height = bm->Height;
 	pictureBox1->Image = bm;
 	this->AutoSize = true;
 	
 	//wyswietlanie odcisk 1
-	bm = gcnew Bitmap("Program\\Preprocessing1.bmp");
+	bm = gcnew Bitmap(img1);
 	pictureBox2->Width = bm->Width;
 	pictureBox2->Height = bm->Height;
 	pictureBox2->Image = bm;
 	this->AutoSize = true;
+
+	delete img;
+	delete img1;
 
 	ThinningAlgorithm = comboBox1->Text;
 
@@ -793,74 +803,109 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 
 	
 }
-private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
-	//Matching
-	MatchingAlgorithm = comboBox2->GetItemText(comboBox2->SelectedItem);
+	private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+		//Matching
+		MatchingAlgorithm = comboBox2->GetItemText(comboBox2->SelectedItem);
 
-	//konstruowanie obiektow - target image;
-	for (int i = 0; i < CleanDeltaListX.size() + CleanEndListX.size(); i++){
-		if (i < CleanEndListX.size()){
-			Matching MatchingObject = Matching(CleanEndListX[i], CleanEndListY[i], "EndList", CleanDirection_Ending[i]);
-			MinutiaeList.push_back(MatchingObject);
-			MatchingObject.~Matching();
+		//konstruowanie obiektow - target image;
+		for (int i = 0; i < CleanDeltaListX.size() + CleanEndListX.size(); i++){
+			if (i < CleanEndListX.size()){
+				Matching MatchingObject = Matching(CleanEndListX[i], CleanEndListY[i], "EndList", CleanDirection_Ending[i]);
+				MinutiaeList.push_back(MatchingObject);
+				MatchingObject.~Matching();
+			}
+			if (i >= CleanEndListX.size()){
+				Matching MatchingObject = Matching(CleanDeltaListX[i - CleanEndListX.size()], CleanDeltaListY[i - CleanEndListX.size()],
+					"DeltaList", CleanDirection_Delta[i - CleanEndListX.size()]);
+				MinutiaeList.push_back(MatchingObject);
+				MatchingObject.~Matching();
+			}
 		}
-		if (i >= CleanEndListX.size()){
-			Matching MatchingObject = Matching(CleanDeltaListX[i - CleanEndListX.size()], CleanDeltaListY[i - CleanEndListX.size()],
-				"DeltaList", CleanDirection_Delta[i - CleanEndListX.size()]);
-			MinutiaeList.push_back(MatchingObject);
-			MatchingObject.~Matching();
+
+		//konstruowanie obiektow - source image
+		for (int i = 0; i < CleanDeltaListX1.size() + CleanEndListX1.size(); i++){
+			if (i < CleanEndListX1.size()){
+				Matching MatchingObject1 = Matching(CleanEndListX1[i], CleanEndListY1[i], "EndList", CleanDirection_Ending1[i]);
+				MinutiaeList1.push_back(MatchingObject1);
+				MatchingObject1.~Matching();
+			}
+			if (i >= CleanEndListX1.size()){
+				Matching MatchingObject1 = Matching(CleanDeltaListX1[i - CleanEndListX1.size()], CleanDeltaListY1[i - CleanEndListX1.size()],
+					"DeltaList", CleanDirection_Delta1[i - CleanEndListX1.size()]);
+				MinutiaeList1.push_back(MatchingObject1);
+				MatchingObject1.~Matching();
+			}
 		}
+
+		Matching MatchingObject;
+		PairsImage = CleanMinutiae.clone();
+
+		PairsImage1 = CleanMinutiae1.clone();
+		std::vector<int> MatchedMinutiae;
+
+		if (MatchingAlgorithm!="Delaunay Triangulation"){
+			//similar pairs
+			if (MatchingAlgorithm == "Generate Pairs"){
+				MatchingObject.GeneratePairs(MinutiaeList, PairsImage, Pairs);
+				imwrite("Program/Match.bmp", PairsImage);
+				//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
+				MatchingObject.GeneratePairs(MinutiaeList1, PairsImage1, Pairs1);
+				imwrite("Program/Match1.bmp", PairsImage1);
+				//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
+			}
+			//graph5
+			if (MatchingAlgorithm == "Generate Graph 5"){
+				MatchingObject.GenerateGraph5(MinutiaeList, PairsImage, Pairs);
+				imwrite("Program/Match.bmp", PairsImage);
+				//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
+				MatchingObject.GenerateGraph5(MinutiaeList1, PairsImage1, Pairs1);
+				imwrite("Program/Match1.bmp", PairsImage1);
+				//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
+			}
+
+			//graph10
+			if (MatchingAlgorithm == "Generate Graph 10"){
+				MatchingObject.GenerateGraph10(MinutiaeList, PairsImage, Pairs);
+				imwrite("Program/Match.bmp", PairsImage);
+				//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
+				MatchingObject.GenerateGraph10(MinutiaeList1, PairsImage1, Pairs1);
+				imwrite("Program/Match1.bmp", PairsImage1);
+				//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
+			}
+
+			bool SimilarPairsResult;
+			bool ExtractTransformationResult;
+			bool SuffcientMatchesResult;
+			float Rotation;
+			float TranslationX;
+			float TranslationY;
+			std::vector<Matching> MinutiaeListSource;
+			MinutiaeListSource = MinutiaeList1;
+			for (int i = 0; i < Pairs.size(); i++){
+				for (int j = 0; j < Pairs1.size(); j++){
+					///similar pairs
+					MatchingObject.SimilarPairs(Pairs[i], Pairs1[j], SimilarPairsResult);
+					if (SimilarPairsResult == true){
+						MatchingObject.ExtractTransformationParams(Pairs[i], Pairs1[j], ExtractTransformationResult, Rotation,
+							TranslationX, TranslationY);
+						if (ExtractTransformationResult == true){
+							MatchingObject.DoTranslation(TranslationX, TranslationY, MinutiaeListSource);
+							MatchingObject.ExistSufficentMatches(MinutiaeListSource, MinutiaeList, SuffcientMatchesResult, MatchedMinutiae);
+							if (SuffcientMatchesResult == true){
+							}
+							//restore
+							MinutiaeListSource = MinutiaeList1;
+
+						}
+					}
+				}
+			}
 	}
-
-	//konstruowanie obiektow - source image
-	for (int i = 0; i < CleanDeltaListX1.size() + CleanEndListX1.size(); i++){
-		if (i < CleanEndListX1.size()){
-			Matching MatchingObject1 = Matching(CleanEndListX1[i], CleanEndListY1[i], "EndList", CleanDirection_Ending1[i]);
-			MinutiaeList1.push_back(MatchingObject1);
-			MatchingObject1.~Matching();
-		}
-		if (i >= CleanEndListX1.size()){
-			Matching MatchingObject1 = Matching(CleanDeltaListX1[i - CleanEndListX1.size()], CleanDeltaListY1[i - CleanEndListX1.size()],
-				"DeltaList", CleanDirection_Delta1[i - CleanEndListX1.size()]);
-			MinutiaeList1.push_back(MatchingObject1);
-			MatchingObject1.~Matching();
-		}
-	}
-
-	Matching MatchingObject;
-	PairsImage = CleanMinutiae.clone();
 	
-	PairsImage1 = CleanMinutiae1.clone();
-	
+		if (MatchingAlgorithm == "Delaunay Triangulation"){
+			MatchingObject.DelaunayTriangulation(MatchedMinutiae);
+		}
 
-	//similar pairs
-	if (MatchingAlgorithm == "Generate Pairs"){
-		MatchingObject.GeneratePairs(MinutiaeList, PairsImage, Pairs);
-		imwrite("Program/Match.bmp", PairsImage);
-		//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
-		MatchingObject.GeneratePairs(MinutiaeList1, PairsImage1, Pairs1);
-		imwrite("Program/Match1.bmp", PairsImage1);
-		//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
-	}
-	//graph5
-	if (MatchingAlgorithm == "Generate Graph 5"){
-		MatchingObject.GenerateGraph5(MinutiaeList, PairsImage, Pairs);
-		imwrite("Program/Match.bmp", PairsImage);
-		//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
-		MatchingObject.GenerateGraph5(MinutiaeList1, PairsImage1, Pairs1);
-		imwrite("Program/Match1.bmp", PairsImage1);
-		//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
-	}
-
-	//graph10
-	if (MatchingAlgorithm == "Generate Graph 10"){
-		MatchingObject.GenerateGraph10(MinutiaeList, PairsImage, Pairs);
-		imwrite("Program/Match.bmp", PairsImage);
-		//std::cout << "TARGET IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs.size() << std::endl;
-		MatchingObject.GenerateGraph10(MinutiaeList1, PairsImage1, Pairs1);
-		imwrite("Program/Match1.bmp", PairsImage1);
-		//std::cout << "SOURCE IMAGE - GENERATED MINUTIAE PAIRS: " << Pairs1.size() << std::endl;
-	}
 
 	auto img = System::Drawing::Image::FromFile("Program\\Match.bmp");
 	auto img1 = System::Drawing::Image::FromFile("Program\\Match1.bmp");
@@ -882,34 +927,6 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 	delete img;
 	delete img1;
 
-	bool SimilarPairsResult;
-	bool ExtractTransformationResult;
-	bool SuffcientMatchesResult;
-	float Rotation;
-	float TranslationX;
-	float TranslationY;
-	std::vector<Matching> MinutiaeListSource;
-	std::vector<int> MatchedMinutiae;
-	MinutiaeListSource = MinutiaeList1;
-	for (int i = 0; i < Pairs.size(); i++){
-		for (int j = 0; j < Pairs1.size(); j++){
-			///similar pairs
-			MatchingObject.SimilarPairs(Pairs[i], Pairs1[j], SimilarPairsResult);
-			if (SimilarPairsResult == true){
-				MatchingObject.ExtractTransformationParams(Pairs[i], Pairs1[j], ExtractTransformationResult, Rotation,
-					TranslationX, TranslationY);
-				if (ExtractTransformationResult == true){
-					MatchingObject.DoTranslation(TranslationX, TranslationY, MinutiaeListSource);
-					MatchingObject.ExistSufficentMatches(MinutiaeListSource, MinutiaeList, SuffcientMatchesResult, MatchedMinutiae);
-					if (SuffcientMatchesResult == true){
-					}
-					//restore
-					MinutiaeListSource = MinutiaeList1;
-
-				}
-			}
-		}
-	}
 	label6->Text = "Matched Minutiae: "+ *std::max_element(MatchedMinutiae.begin(), MatchedMinutiae.end());
 	button7->Enabled = false;
 
@@ -930,14 +947,18 @@ int licznik = 0;
 private: System::Void pictureBox1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 	if (Detect == true){
 		if (licznik == 0){
-			X0 = e->X;
-			Y0 = e->Y;
+			//X0 = e->X;
+			//Y0 = e->Y;
+			X0 = 35;
+			Y0 = 149;
 			licznik++;
 			label2->Text = "X: " + X0 + " Y: " + Y0;
 		}
 		else if (licznik == 1){
-			X1 = e->X;
-			Y1 = e->Y;
+			//X1 = e->X;
+			//Y1 = e->Y;
+			X1 = 299;
+			Y1 = 629;
 			licznik = 0;
 			label3->Text = "X: " + X1 + " Y: " + Y1;
 			button6->Enabled = true;
@@ -950,5 +971,67 @@ private: System::Void comboBox2_SelectedIndexChanged(System::Object^  sender, Sy
 		button7->Enabled = true;
 	}
 }
+
+void ClearAll(){
+	Preproc = false;
+	Thinn = false;
+	Detect = false;
+	FalseDetect = false;
+	Match = false;
+
+
+	DeltaListX.clear();
+	DeltaListY.clear();
+	EndListX.clear();
+	EndListY.clear();
+	Direction_Ending.clear();
+	Direction_Delta.clear();
+
+	DeltaListX1.clear();
+	DeltaListY1.clear();
+	EndListX1.clear();
+	EndListY1.clear();
+	Direction_Ending1.clear();
+	Direction_Delta1.clear();
+
+	OutEndListX.clear();
+	OutEndListY.clear();
+	OutDeltaListX.clear();
+	OutDeltaListY.clear();
+	CleanEndListX.clear();
+	CleanEndListY.clear();
+	CleanDeltaListX.clear();
+	CleanDeltaListY.clear();
+	OutDirection_Ending.clear();
+	CleanDirection_Ending.clear();
+	OutDirection_Delta.clear();
+	CleanDirection_Delta.clear();
+
+	OutEndListX1.clear();
+	OutEndListY1.clear();
+	OutDeltaListX1.clear();
+	OutDeltaListY1.clear();
+	CleanEndListX1.clear();
+	CleanEndListY1.clear();
+	CleanDeltaListX1.clear();
+	CleanDeltaListY1.clear();
+	OutDirection_Ending1.clear();
+	CleanDirection_Ending1.clear();
+	OutDirection_Delta1.clear();
+	CleanDirection_Delta1.clear();
+
+	MinutiaeList.clear();
+	MinutiaeList1.clear();
+	Pairs.clear();
+	Pairs1.clear();
+
+	label2->Text = "";
+	label3->Text = "";
+	label8->Text = "Detected Ending: ";
+	label9->Text = "Detected Delta: ";
+	label10->Text = "Detected Delta: ";
+	label11->Text = "Detected Ending: ";
+	label6->Text = "Matched Minutiae: ";
+	}
 };
 }

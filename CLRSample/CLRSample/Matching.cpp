@@ -1,6 +1,7 @@
 #include "Matching.h"
 #include "opencv2/opencv.hpp"
 #include <iostream>
+#include "common.h"
 using namespace cv;
 
 // overloaded constructor
@@ -271,6 +272,153 @@ void Matching::GenerateGraph10(std::vector<Matching> minutiae, Mat& PairsImage, 
 			Pairs.push_back(temp);
 			temp.clear();
 			vectorLength[iterator] = 1000;
+		}
+	}
+}
+
+void Matching::draw_delaunay(Mat& img, Subdiv2D& subdiv, Scalar delaunay_color, vector<Vec6f>& triangleList)
+{
+
+
+	subdiv.getTriangleList(triangleList);
+	vector<Point> pt(3);
+	Size size = img.size();
+	Rect rect(0, 0, size.width, size.height);
+
+	for (size_t i = 0; i < triangleList.size(); i++)
+	{
+		Vec6f t = triangleList[i];
+		pt[0] = Point(cvRound(t[0]), cvRound(t[1]));
+		pt[1] = Point(cvRound(t[2]), cvRound(t[3]));
+		pt[2] = Point(cvRound(t[4]), cvRound(t[5]));
+
+		// Draw rectangles completely inside the image.
+		if (rect.contains(pt[0]) && rect.contains(pt[1]) && rect.contains(pt[2]))
+		{
+			line(img, pt[0], pt[1], delaunay_color, 1, 1, 0);
+			line(img, pt[1], pt[2], delaunay_color, 1, 1, 0);
+			line(img, pt[2], pt[0], delaunay_color, 1, 1, 0);
+		}
+	}
+}
+
+void Matching::DelaunayTriangulation(std::vector<int>& MatchedMinutiae){
+	Scalar delaunay_color(0, 255, 255);
+	Rect rect(0, 0, CleanMinutiae.cols, CleanMinutiae.rows);
+	Subdiv2D subdiv(rect);
+	vector<Point2f> points;
+	vector<Vec6f> triangleList;
+	for (int i = 0; i < MinutiaeList.size(); i++){
+		points.push_back(Point2f(MinutiaeList[i].x, MinutiaeList[i].y));
+
+	}
+
+	for (vector<Point2f>::iterator it = points.begin(); it != points.end(); it++)
+	{
+		subdiv.insert(*it);
+		Mat copy = CleanMinutiae.clone();
+		draw_delaunay(copy, subdiv, delaunay_color, triangleList);
+
+	}
+
+	draw_delaunay(CleanMinutiae, subdiv, delaunay_color, triangleList);
+
+
+	Rect rect1(0, 0, CleanMinutiae1.cols, CleanMinutiae1.rows);
+	Subdiv2D subdiv1(rect1);
+	vector<Point2f> points1;
+	vector<Vec6f> triangleList1;
+	for (int i = 0; i < MinutiaeList1.size(); i++){
+		points1.push_back(Point2f(MinutiaeList1[i].x, MinutiaeList1[i].y));
+
+	}
+
+	for (vector<Point2f>::iterator it = points1.begin(); it != points1.end(); it++)
+	{
+		subdiv1.insert(*it);
+		Mat copy1 = CleanMinutiae1.clone();
+		draw_delaunay(copy1, subdiv1, delaunay_color, triangleList1);
+
+	}
+
+	draw_delaunay(CleanMinutiae1, subdiv1, delaunay_color, triangleList1);
+
+	imwrite("Program/Match.bmp", CleanMinutiae);
+	imwrite("Program/Match1.bmp", CleanMinutiae1);
+
+	bool SimilarTriangles = false;
+	//similar traignles
+	std::vector<Matching> MinutiaeListSource;
+	bool SufficentMatchesResult = false;
+	
+	MinutiaeListSource = MinutiaeList1;
+	for (int i = 5; i < triangleList.size(); i++){
+		
+		for (int j = 5; j < triangleList1.size(); j++){
+			if ((i == 51) && (j==57)){
+				float a;
+				a = 0;
+			}
+			float Length1;
+			float Length2;
+			float Length3;
+
+			float Length4;
+			float Length5;
+			float Length6;
+
+			Length1 = sqrt((triangleList[i][2] - triangleList[i][0])*(triangleList[i][2] - triangleList[i][0])
+				+ (triangleList[i][3] - triangleList[i][1])*(triangleList[i][3] - triangleList[i][1]));
+			Length2 = sqrt((triangleList[i][4] - triangleList[i][0])*(triangleList[i][4] - triangleList[i][0])
+				+ (triangleList[i][5] - triangleList[i][1])*(triangleList[i][5] - triangleList[i][1]));
+			Length3 = sqrt((triangleList[i][4] - triangleList[i][2])*(triangleList[i][4] - triangleList[i][2])
+				+ (triangleList[i][5] - triangleList[i][3])*(triangleList[i][5] - triangleList[i][3]));
+
+			Length4 = sqrt((triangleList1[j][2] - triangleList1[j][0])*(triangleList1[j][2] - triangleList1[j][0])
+				+ (triangleList1[j][3] - triangleList1[j][1])*(triangleList1[j][3] - triangleList1[j][1]));
+			Length5 = sqrt((triangleList1[j][4] - triangleList1[j][0])*(triangleList1[j][4] - triangleList1[j][0])
+				+ (triangleList1[j][5] - triangleList1[j][1])*(triangleList1[j][5] - triangleList1[j][1]));
+			Length6 = sqrt((triangleList1[j][4] - triangleList1[j][2])*(triangleList1[j][4] - triangleList1[j][2])
+				+ (triangleList1[j][5] - triangleList1[j][3])*(triangleList1[j][5] - triangleList1[j][3]));
+
+			if ((abs(Length1 - Length4) < 0.05*Length1) && (abs(Length2 - Length5) < 0.05*Length2) && (abs(Length3 - Length6) < 0.05*Length6)){
+				SimilarTriangles = true;
+				float xDiff1;
+				float xDiff2;
+				float yDiff1;
+				float yDiff2;
+
+				xDiff1 = triangleList[i][0] - triangleList1[j][0];
+				xDiff2 = triangleList[i][2] - triangleList1[j][2];
+				yDiff1 = triangleList[i][1] - triangleList1[j][1];
+				yDiff2 = triangleList[i][3] - triangleList1[j][3];
+
+				float TranslationX;
+				float TranslationY;
+				if ((abs(xDiff1 - xDiff2) < 10) && (abs(yDiff1 - yDiff2<10))){
+					TranslationX = (xDiff1 + xDiff2) / 2;
+					TranslationY = (yDiff1 + yDiff2) / 2;
+					DoTranslation(TranslationX, TranslationY, MinutiaeListSource);
+					ExistSufficentMatches(MinutiaeListSource, MinutiaeList, SufficentMatchesResult, MatchedMinutiae);
+					//restore
+					MinutiaeListSource = MinutiaeList1;
+				}
+				else{
+					xDiff1 = triangleList[i][2] - triangleList1[j][0];
+					xDiff2 = triangleList[i][0] - triangleList1[j][2];
+					yDiff1 = triangleList[i][3] - triangleList1[j][1];
+					yDiff2 = triangleList[i][1] - triangleList1[j][3];
+					if ((abs(xDiff1 - xDiff2) < 10) && (abs(yDiff1 - yDiff2<10))){
+						TranslationX = (xDiff1 + xDiff2) / 2;
+						TranslationY = (yDiff1 + yDiff2) / 2;
+						DoTranslation(TranslationX, TranslationY, MinutiaeListSource);
+						ExistSufficentMatches(MinutiaeListSource, MinutiaeList, SufficentMatchesResult, MatchedMinutiae);
+						MinutiaeListSource = MinutiaeList1;
+
+					}
+				}
+
+			}
 		}
 	}
 }

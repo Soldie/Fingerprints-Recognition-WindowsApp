@@ -42,6 +42,12 @@ public:
 	//GenerateGraph10
 	void GenerateGraph10(std::vector<Matching> minutiae, Mat& PairsImage, std::vector<std::vector<Matching>>& Pairs);
 
+	//Draw Delaunay Triangulation
+	void draw_delaunay(Mat& img, Subdiv2D& subdiv, Scalar delaunay_color, vector<Vec6f>& triangleList);
+
+	//Delaunay Trainglation Method
+	void DelaunayTriangulation(std::vector<int>& MatchedMinutiae);
+
 	// Virtual descrutor
 	~Matching();
 

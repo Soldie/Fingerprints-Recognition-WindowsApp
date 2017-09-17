@@ -12,16 +12,34 @@ void Preprocessing::Windowing(Mat& image){
 	std::vector<int> listaX;
 	std::vector<int> listaY;
 	int index = 0;
+	int licznikY = 0;
+	int licznikX = 0;
 	for (int i = 1; i < image.rows - 1; ++i)
 	{
 		for (int j = 1; j < image.cols - 1; ++j)
 		{
 			if (image.at<uchar>(i, j) < 200)
 			{
-				listaX.push_back(j);
-				listaY.push_back(i);
+				licznikY++;				
 			}
 		}
+
+		if (licznikY >= 10) listaY.push_back(i);
+		licznikY = 0;
+	}
+
+	for (int j = 1; j < image.cols - 1; ++j)
+	{
+		for (int i = 1; i < image.rows - 1; ++i)
+		{
+			if (image.at<uchar>(i, j) < 200)
+			{
+				licznikX++;
+			}
+		}
+
+		if (licznikX >= 10) listaX.push_back(j);
+		licznikX = 0;
 	}
 	int Xmin = *min_element(listaX.begin(), listaX.end());
 	int Xmax = *max_element(listaX.begin(), listaX.end());
